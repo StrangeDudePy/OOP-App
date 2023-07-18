@@ -97,6 +97,14 @@ void create_player(std::string& playername){
             
         }
        
+
+        int checkbalance(){
+            std::cout<<"your current balance: "<<balance;
+            std::cout << "Press enter to return main menu" << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            return 1;
+       }
     };
     
     }
