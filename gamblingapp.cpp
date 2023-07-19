@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <algorithm>
 
 
 
@@ -21,26 +22,21 @@ void printmenu(){
         std::cout << "2-Shop" << std::endl;
         std::cout << "3-Balance" << std::endl;
         std::cout << "4-Inventory" << std::endl;
-        std::cout << "5-Win/Lose rates" << std::endl;
-        std::cout << "6-Play" << std::endl;
+        std::cout << "5-Play" << std::endl;
     }
 }
 
 class player{
     protected:
     int balance=50;
-
-    int win_num;
-    int lose_rate;
-    int wr;
     std::vector<std::string> common_items;
     std::vector<std::string> rare_items;
     std::vector<std::string> epic_items;
 
 
     public:
-    friend void create_player(std::string& playername){
-    }
+    friend void create_player(std::string& playername);
+    
         
 };
 
@@ -51,7 +47,8 @@ class player{
 void create_player(std::string& playername){
     std::cout<<"Enter a name";
     std::cin>>playername;
-    class playername:public player {
+    std::string PlayerDerived=playername;
+    class PlayerDerived:public player {
         public:
         int shop(int choice){
             std::cout<<"Choose item to buy"<<std::endl; 
@@ -129,8 +126,9 @@ void create_player(std::string& playername){
         std::cin>>rarity;
         std::cout<<"Enter the item name you wanna put on bet ";
         std::getline(std::cin,itemn);
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         if(rarity==1){
-            auto it = std::find(common_items.begin(), common_items.end(), itemn);
+            auto it = std::find(common_items.begin(), common_items.end(),itemn);
 
                 if (it != common_items.end()) {
                     std::cout << "Item Found" <<std::endl;
@@ -226,7 +224,95 @@ void create_player(std::string& playername){
         }
    
     }
-    };
+    int inventory(){
+        for(auto it=common_items.begin(); it !=common_items.end();++it){
+            if(it==common_items.begin()){
+                std::cout<<"Your Common Items are:"<<*it<<" ,";
+                }
+
+            else{
+                std::cout<<","<<*it;
+            }
+            
+        }
+        std::cout<<std::endl;
+
+
+        for(auto itr_=rare_items.begin(); itr_ !=rare_items.end();++itr_){
+            if(itr_==rare_items.begin()){
+                std::cout<<"Your Common Items are:"<<*itr_<<" ,";
+                }
+
+            else{
+                std::cout<<","<<*itr_;
+            }
+            
+        }
+        std::cout<<std::endl;
+
+        for(auto itp_=epic_items.begin(); itp_ !=epic_items.end();++itp_){
+            if(itp_==epic_items.begin()){
+                std::cout<<"Your Common Items are:"<<*itp_<<" ,";
+                }
+
+            else{
+                std::cout<<","<<*itp_;
+            }
+          
+        }
+          std::cout<<std::endl;
+
+        int total_balance=common_items.size()*10+rare_items.size()*30+epic_items.size()*50;
+        std::cout<<"Your total inventory value is: "<<total_balance;
+
+    std::cout << "Press enter to return main menu" << std::endl;
+    std::cin.ignore();
+    std::cin.get();
+    return 1;
     
+    
+    
+    }
+    int sellitem(){
+        std::string solditemname;
+        bool found=false;
+        std::cout<<"Satmak İstediğiniz İtemin İsmini Giriniz ;";
+        std::getline(std::cin,solditemname);
+
+        auto i = std::find(common_items.begin(), common_items.end(),solditemname);
+
+                if (i != common_items.end()) {
+                    std::cout << "Item Found" <<std::endl;
+                    found=true;
+
+    }
+
+        auto ir = std::find(rare_items.begin(), rare_items.end(),solditemname);
+
+                if (ir != rare_items.end()) {
+                    std::cout << "Item Found" <<std::endl;
+                    found=true;
+     
+    }
+
+    
+ auto ip = std::find(epic_items.begin(), epic_items.end(),solditemname);
+
+                if (i != epic_items.end()) {
+                    std::cout << "Item Sold" <<std::endl;
+                    found=true;
+
+        
+    std::cout << "Press enter to return main menu" << std::endl;
+    std::cin.ignore();
+    std::cin.get();
+    return 1;
+
+
+}
+
     
 
+    }
+    };
+}
